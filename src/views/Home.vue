@@ -52,13 +52,16 @@ export default {
             ]
           },
           { title: "姓名", key: "username" },
-          { title: "性别", key: "sex" },
+          { title: "性别", showForm: true, key: "sex" },
           {
             title: "操作",
             key: "action",
             width: 160,
             align: "center",
-            buttons: ["修改"]
+            buttons: [
+              { type: "edit", label: "修改" },
+              { type: "delete", label: "删除" }
+            ]
           }
         ],
         url: "context/AutoTable_1", //获取表格数据接口
@@ -135,24 +138,43 @@ export default {
     }
   },
   methods: {
-    openModal({ type, params }) {
-      if (type == "new") {
-        this.dialog.title = "新建数据";
-        this.dialog.isEdit = false;
-        this.formData = {};
-      } else {
-        this.dialog.title = "修改数据";
-        this.dialog.isEdit = true;
-        // this.formData = params.row; //可以换成从接口取数据
-        this.formData = { ...params.row };
+    async openModal({ type, params }) {
+      switch (type) {
+        case "new":
+          this.dialog.title = "新建数据";
+          this.dialog.isEdit = false;
+          this.formData = {};
+          break;
+        case "修改":
+          this.dialog.title = "修改数据";
+          this.dialog.isEdit = true;
+          // this.formData = params.row; //可以换成从接口取数据
+          this.formData = { ...params.row };
+          this.dialog.show = true;
+          break;
+        case "删除":
+          this.delete(params.row);
+          break;
+        default:
+          break;
       }
-      this.dialog.show = true;
+    },
+    async delete(data) {
+      const res = await this.$http({
+        url: "context//AutoTabelDelete", //删除
+        data: data,
+        method: "POST"
+      });
+      if (res && res.data && res.data.result === 0) {
+        this.$Message.info({ content: res.data.msg || "成功" });
+        this.$refs.autoTable.refresh(this.searchData); //刷新表格
+      }
     },
     async ok() {
       this.$refs.form.validate(async valid => {
         if (valid) {
           const res = await this.$http({
-            url: "context/updateTable", //保存或者修改接口
+            url: "context//AutoTableUpdate", //保存或者修改接口
             data: this.formData,
             method: "POST"
           });
