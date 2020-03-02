@@ -60,7 +60,7 @@ export default {
             buttons: ["修改"]
           }
         ],
-        url: "https://yapi.ihotel.cn/mock/60/AutoTable_1", //获取表格数据接口
+        url: "/context/AutoTable_1", //获取表格数据接口
         path: "datas"
       },
       searchData: {
