@@ -15,7 +15,9 @@
       :mask-closable="false"
       :title="dialog.title"
     >
-      <AutoForm ref="form" v-model="formData" :fields="fields"> </AutoForm>
+      <div v-if="dialog.show">
+        <AutoForm ref="form" v-model="formData" :fields="fields"> </AutoForm>
+      </div>
       <div slot="footer">
         <Button type="primary" @click="ok">提交</Button>
         <Button @click="cancel">取消</Button>
@@ -45,8 +47,7 @@ export default {
               //如果在表单中 可以设置验证规则
               {
                 required: true,
-                message: "自定义",
-                trigger: "blur"
+                message: "自定义显示的"
               }
             ]
           },
@@ -60,7 +61,7 @@ export default {
             buttons: ["修改"]
           }
         ],
-        url: "/context/AutoTable_1", //获取表格数据接口
+        url: "context/AutoTable_1", //获取表格数据接口
         path: "datas"
       },
       searchData: {
@@ -151,7 +152,7 @@ export default {
       this.$refs.form.validate(async valid => {
         if (valid) {
           const res = await this.$http({
-            url: "https://yapi.ihotel.cn/mock/60/updateTable", //保存或者修改接口
+            url: "context/updateTable", //保存或者修改接口
             data: this.formData,
             method: "POST"
           });
