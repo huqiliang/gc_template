@@ -93,7 +93,6 @@ export default {
         },
         {
           datas: [
-            { label: "全选", key: "", value: "" },
             { label: "待上线", key: "R", value: "R" },
             { label: "有效", key: "I", value: "I" },
             { label: "无效", key: "X", value: "X" }
