@@ -115,7 +115,7 @@ export default {
             {
               label: "新增",
               action: () => {
-                this.openModal({ type: "new" });
+                this.openModal({ type: "新增" });
               }
             }
           ],
@@ -139,10 +139,11 @@ export default {
   methods: {
     async openModal({ type, params }) {
       switch (type) {
-        case "new":
+        case "新增":
           this.dialog.title = "新建数据";
           this.dialog.isEdit = false;
           this.formData = {};
+          this.dialog.show = true;
           break;
         case "修改":
           this.dialog.title = "修改数据";
