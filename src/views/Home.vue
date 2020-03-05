@@ -170,10 +170,13 @@ export default {
       }
     },
     async ok() {
+      const url = this.dialog.isEdit
+        ? "context/AutoTableUpdate"
+        : "context/AutoTableCreate";
       this.$refs.form.validate(async valid => {
         if (valid) {
           const res = await this.$http({
-            url: "context//AutoTableUpdate", //保存或者修改接口
+            url, //保存或者修改接口
             data: this.formData,
             method: "POST"
           });
