@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import api from "../api/controller";
+
 export default {
   data() {
     return {
@@ -64,7 +66,7 @@ export default {
             ]
           }
         ],
-        url: "context/AutoTable_1", //获取表格数据接口
+        url: api.LIST_URL, //获取表格数据接口
         path: "datas"
       },
       searchData: {
@@ -160,27 +162,21 @@ export default {
       }
     },
     async delete(data) {
-      const res = await this.$http({
-        url: "context//AutoTabelDelete", //删除
-        data: data,
-        method: "POST"
-      });
+      const res = await api.DELETE(data);
       if (res && res.data && res.data.result === 0) {
         this.$Message.info({ content: res.data.msg || "成功" });
         this.$refs.autoTable.refresh(this.searchData); //刷新表格
       }
     },
     async ok() {
-      const url = this.dialog.isEdit
-        ? "context/AutoTableUpdate"
-        : "context/AutoTableCreate";
       this.$refs.form.validate(async valid => {
         if (valid) {
-          const res = await this.$http({
-            url, //保存或者修改接口
-            data: this.formData,
-            method: "POST"
-          });
+          let res;
+          if (this.dialog.isEdit) {
+            res = await api.UPDATE(this.formData);
+          } else {
+            res = await api.CREATE(this.formData);
+          }
           if (res && res.data && res.data.result === 0) {
             this.$Message.info({ content: res.data.msg || "成功" });
             this.dialog.show = false;
