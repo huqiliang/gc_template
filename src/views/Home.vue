@@ -16,7 +16,8 @@
       :title="dialog.title"
     >
       <div v-if="dialog.show">
-        <AutoForm ref="form" v-model="formData" :fields="fields"> </AutoForm>
+        <AutoForm :row="1" ref="form" v-model="formData" :fields="fields">
+        </AutoForm>
       </div>
       <div slot="footer">
         <Button type="primary" @click="ok">提交</Button>
