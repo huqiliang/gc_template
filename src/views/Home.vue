@@ -108,7 +108,7 @@ export default {
             {
               label: "查询",
               action: () => {
-                this.$refs.autoTable.refresh(this.searchData);
+                this.$refs.autoTable.fetchDataInSide(this.searchData);
               }
             },
             {
