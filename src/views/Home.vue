@@ -180,6 +180,7 @@ export default {
           }
           if (res && res.data && res.data.result === 0) {
             this.$Message.info({ content: res.data.msg || "成功" });
+            this.$refs.autoTable.fetchDataInSide(this.searchData);
             this.dialog.show = false;
           }
         }
